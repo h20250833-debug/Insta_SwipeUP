@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Crown & Comb – Instagram Story Ad</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Cormorant+Garamond:wght@300;400;600&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: #0a0a0a;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Montserrat', sans-serif;
+    overflow: hidden;
+  }
+
+  .scene-label {
+    color: #c9a96e;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+    opacity: 0.7;
+  }
+
+  .phone-wrapper {
+    position: relative;
+    width: 320px;
+    height: 660px;
+  }
+
+  .phone-frame {
+    position: absolute;
+    inset: 0;
+    border-radius: 44px;
+    border: 2px solid #2a2a2a;
+    background: #111;
+    box-shadow: 0 0 60px rgba(0,0,0,0.9), inset 0 0 0 1px #333;
+    z-index: 10;
+    pointer-events: none;
+    overflow: hidden;
+  }
+
+  .phone-notch {
+    position: absolute;
+    top: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 90px;
+    height: 24px;
+    background: #111;
+    border-radius: 14px;
+    z-index: 20;
+  }
+
+  .phone-screen {
+    position: absolute;
+    inset: 6px;
+    border-radius: 40px;
+    overflow: hidden;
+    background: #0a0808;
+  }
+
+  /* ── Instagram Story Shell ── */
+  .story-shell {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ig-top-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    padding: 14px 12px 6px;
+    z-index: 30;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.55) 0%, transparent 100%);
+  }
+
+  .ig-progress-bars {
+    display: flex;
+    gap: 3px;
+    margin-bottom: 10px;
+  }
+
+  .ig-bar {
+    height: 2px;
+    flex: 1;
+    background: rgba(255,255,255,0.25);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .ig-bar-fill {
+    height: 100%;
+    background: #fff;
+    border-radius: 2px;
+    animation: barFill 12s linear forwards;
+  }
+
+  @keyframes barFill {
+    from { width: 0%; }
+    to { width: 100%; }
+  }
+
+  .ig-account-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ig-avatar-group {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .ig-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 1.5px solid #c9a96e;
+    background: linear-gradient(135deg, #c9a96e 0%, #8b6914 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 10px;
+    font-weight: 700;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+
+  .ig-name-group {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .ig-username {
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
+
+  .ig-time {
+    color: rgba(255,255,255,0.6);
+    font-size: 9px;
+  }
+
+  .ig-sponsored {
+    background: rgba(201,169,110,0.25);
+    border: 1px solid rgba(201,169,110,0.5);
+    color: #c9a96e;
+    font-size: 8px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    padding: 2px 7px;
+    border-radius: 3px;
+  }
+
+  .ig-close-btn {
+    color: rgba(255,255,255,0.7);
+    font-size: 18px;
+    cursor: pointer;
+    line-height: 1;
+  }
+
+  /* ── Background video illusion ── */
+  .ad-bg {
+    position: absolute;
+    inset: 0;
+    background: #0d0a06;
+    overflow: hidden;
+  }
+
+  /* Animated golden particles */
+  .particles {
+    position: absolute;
+    inset: 0;
+  }
+
+  .particle {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: #c9a96e;
+    border-radius: 50%;
+    opacity: 0;
+    animation: floatUp var(--dur) linear var(--delay) infinite;
+  }
+
+  @keyframes floatUp {
+    0%   { transform: translateY(100%) translateX(0); opacity: 0; }
+    10%  { opacity: 0.8; }
+    80%  { opacity: 0.4; }
+    100% { transform: translateY(-20px) translateX(var(--drift)); opacity: 0; }
+  }
+
+  /* Geometric salon elements */
+  .geo-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid rgba(201,169,110,0.12);
+    animation: pulse 4s ease-in-out infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.4; }
+    50%       { transform: scale(1.05); opacity: 0.8; }
+  }
+
+  .scissors-bg {
+    position: absolute;
+    bottom: 160px;
+    right: -10px;
+    width: 100px;
+    height: 100px;
+    opacity: 0.06;
+    animation: rotateSlow 20s linear infinite;
+  }
+
+  @keyframes rotateSlow {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+  }
+
+  .comb-bg {
+    position: absolute;
+    top: 180px;
+    left: -15px;
+    opacity: 0.05;
+    animation: rotateSlow 25s linear reverse infinite;
+  }
+
+  /* ── Text scenes (simulating video frames) ── */
+  .text-scene {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 0 24px;
+    text-align: center;
+    opacity: 0;
+  }
+
+  .scene-1 { animation: sceneIn 3.5s ease forwards 0.5s; }
+  .scene-2 { animation: sceneIn 3.5s ease forwards 4s; }
+  .scene-3 { animation: sceneIn 4s ease forwards 7.5s; }
+
+  @keyframes sceneIn {
+    0%   { opacity: 0; transform: translateY(16px); }
+    15%  { opacity: 1; transform: translateY(0); }
+    75%  { opacity: 1; transform: translateY(0); }
+    90%  { opacity: 0; transform: translateY(-12px); }
+    100% { opacity: 0; }
+  }
+
+  .scene-3 {
+    animation: sceneInStay 5s ease forwards 7.5s;
+  }
+
+  @keyframes sceneInStay {
+    0%   { opacity: 0; transform: translateY(16px); }
+    15%  { opacity: 1; transform: translateY(0); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  .eyeline {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #c9a96e;
+    margin-bottom: 12px;
+    opacity: 0.8;
+  }
+
+  .headline {
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    font-size: 34px;
+    line-height: 1.1;
+    color: #f5f0e8;
+    text-shadow: 0 2px 20px rgba(0,0,0,0.5);
+  }
+
+  .headline em {
+    font-style: italic;
+    color: #c9a96e;
+  }
+
+  .subline {
+    margin-top: 14px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 300;
+    color: rgba(245,240,232,0.7);
+    letter-spacing: 1px;
+    line-height: 1.6;
+  }
+
+  .gold-divider {
+    width: 40px;
+    height: 1px;
+    background: #c9a96e;
+    margin: 14px auto;
+    opacity: 0.6;
+  }
+
+  /* Scene 3 – brand reveal */
+  .brand-crown {
+    width: 54px;
+    height: 54px;
+    margin-bottom: 14px;
+    animation: crownReveal 1s cubic-bezier(0.34,1.56,0.64,1) forwards 8.5s;
+    opacity: 0;
+    transform: scale(0.6);
+  }
+
+  @keyframes crownReveal {
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .brand-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: #f5f0e8;
+    letter-spacing: 2px;
+    margin-bottom: 3px;
+  }
+
+  .brand-tag {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: #c9a96e;
+    margin-bottom: 18px;
+  }
+
+  .offer-badge {
+    background: rgba(201,169,110,0.15);
+    border: 1px solid rgba(201,169,110,0.5);
+    border-radius: 4px;
+    padding: 8px 18px;
+    margin-top: 6px;
+    animation: badgePop 0.6s cubic-bezier(0.34,1.56,0.64,1) forwards 9.5s;
+    opacity: 0;
+    transform: scale(0.8);
+  }
+
+  @keyframes badgePop {
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  .offer-text {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #c9a96e;
+  }
+
+  .offer-value {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: #f5f0e8;
+    line-height: 1.2;
+  }
+
+  /* ── Swipe Up CTA ── */
+  .swipe-up-area {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-bottom: 28px;
+    background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, transparent 100%);
+    opacity: 0;
+    animation: fadeIn 0.8s ease forwards 10s;
+  }
+
+  @keyframes fadeIn {
+    to { opacity: 1; }
+  }
+
+  .swipe-chevron {
+    animation: bounceUp 1.2s ease-in-out infinite 10.2s;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+  }
+
+  @keyframes bounceUp {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-6px); }
+  }
+
+  .chevron-icon {
+    width: 20px;
+    height: 10px;
+    border-left: 2px solid rgba(201,169,110,0.9);
+    border-top: 2px solid rgba(201,169,110,0.9);
+    transform: rotate(45deg) translateY(2px);
+    border-radius: 2px 0 0 0;
+  }
+
+  .chevron-icon.c2 {
+    opacity: 0.5;
+    margin-top: -8px;
+  }
+
+  .swipe-label {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: rgba(245,240,232,0.9);
+    margin-top: 8px;
+  }
+
+  .swipe-sublabel {
+    font-size: 8px;
+    letter-spacing: 2px;
+    color: #c9a96e;
+    margin-top: 2px;
+    font-family: 'Montserrat', sans-serif;
+  }
+
+  /* ── Outer UI ── */
+  .hint-row {
+    margin-top: 18px;
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .hint-btn {
+    background: transparent;
+    border: 1px solid rgba(201,169,110,0.35);
+    color: rgba(201,169,110,0.8);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 9px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    padding: 7px 16px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .hint-btn:hover {
+    background: rgba(201,169,110,0.1);
+    color: #c9a96e;
+  }
+
+  .hint-btn.primary {
+    background: rgba(201,169,110,0.15);
+    border-color: rgba(201,169,110,0.6);
+  }
+
+  /* Side buttons */
+  .phone-side-btn {
+    position: absolute;
+    right: -3px;
+    width: 3px;
+    border-radius: 0 2px 2px 0;
+    background: #222;
+  }
+
+  .btn-power { top: 160px; height: 48px; }
+
+  .phone-side-left {
+    position: absolute;
+    left: -3px;
+    width: 3px;
+    border-radius: 2px 0 0 2px;
+    background: #222;
+  }
+
+  .btn-vol1 { top: 130px; height: 32px; }
+  .btn-vol2 { top: 172px; height: 32px; }
+
+  /* Replay button */
+  .replay-btn {
+    margin-top: 10px;
+    background: transparent;
+    border: none;
+    color: rgba(201,169,110,0.5);
+    font-family: 'Montserrat', sans-serif;
+    font-size: 8px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    cursor: pointer;
+    padding: 4px 8px;
+    transition: color 0.2s;
+  }
+
+  .replay-btn:hover { color: #c9a96e; }
+
+</style>
+</head>
+<body>
+
+<p class="scene-label">Crown &amp; Comb · Instagram Story Ad · Lead Generator</p>
+
+<div class="phone-wrapper">
+
+  <!-- Side buttons -->
+  <div class="phone-side-btn btn-power"></div>
+  <div class="phone-side-left btn-vol1"></div>
+  <div class="phone-side-left btn-vol2"></div>
+
+  <!-- Phone frame -->
+  <div class="phone-frame">
+    <div class="phone-notch"></div>
+    <div class="phone-screen">
+
+      <!-- Ad background -->
+      <div class="ad-bg">
+
+        <!-- Geo rings -->
+        <div class="geo-ring" style="width:500px;height:500px;top:-150px;left:-120px;animation-delay:0s;"></div>
+        <div class="geo-ring" style="width:300px;height:300px;top:100px;left:10px;animation-delay:1.5s;"></div>
+        <div class="geo-ring" style="width:180px;height:180px;bottom:80px;right:20px;animation-delay:0.8s;"></div>
+
+        <!-- Particles -->
+        <div class="particles" id="particles"></div>
+
+        <!-- SVG scissors decoration -->
+        <svg class="scissors-bg" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="30" cy="30" r="14" stroke="#c9a96e" stroke-width="3"/>
+          <circle cx="70" cy="30" r="14" stroke="#c9a96e" stroke-width="3"/>
+          <circle cx="30" cy="30" r="5" fill="#c9a96e"/>
+          <circle cx="70" cy="30" r="5" fill="#c9a96e"/>
+          <line x1="40" y1="38" x2="85" y2="80" stroke="#c9a96e" stroke-width="3" stroke-linecap="round"/>
+          <line x1="60" y1="38" x2="15" y2="80" stroke="#c9a96e" stroke-width="3" stroke-linecap="round"/>
+        </svg>
+
+        <!-- SVG comb decoration -->
+        <svg class="comb-bg" width="70" height="80" viewBox="0 0 70 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <rect x="5" y="5" width="60" height="18" rx="4" stroke="#c9a96e" stroke-width="2.5"/>
+          <line x1="15" y1="23" x2="15" y2="55" stroke="#c9a96e" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="25" y1="23" x2="25" y2="55" stroke="#c9a96e" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="35" y1="23" x2="35" y2="55" stroke="#c9a96e" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="45" y1="23" x2="45" y2="55" stroke="#c9a96e" stroke-width="2.5" stroke-linecap="round"/>
+          <line x1="55" y1="23" x2="55" y2="55" stroke="#c9a96e" stroke-width="2.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+
+      <!-- Scene 1 -->
+      <div class="text-scene scene-1">
+        <div class="eyeline">Every strand tells a story</div>
+        <div class="headline">Tired of<br>Bad<br><em>Hair Days?</em></div>
+        <div class="gold-divider"></div>
+        <div class="subline">Your hair deserves more<br>than just a trim.</div>
+      </div>
+
+      <!-- Scene 2 -->
+      <div class="text-scene scene-2">
+        <div class="eyeline">Luxury Salon &amp; Spa</div>
+        <div class="headline">Your Crown<br>Deserves<br><em>Royalty.</em></div>
+        <div class="gold-divider"></div>
+        <div class="subline">Premium cuts · Color · Spa rituals<br>crafted just for you.</div>
+      </div>
+
+      <!-- Scene 3 – Brand Reveal -->
+      <div class="text-scene scene-3">
+        <!-- Crown SVG -->
+        <svg class="brand-crown" viewBox="0 0 54 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M4 38L10 16L20 28L27 6L34 28L44 16L50 38H4Z" stroke="#c9a96e" stroke-width="2" stroke-linejoin="round"/>
+          <path d="M4 38H50" stroke="#c9a96e" stroke-width="2" stroke-linecap="round"/>
+          <circle cx="10" cy="16" r="3" fill="#c9a96e"/>
+          <circle cx="27" cy="6" r="3" fill="#c9a96e"/>
+          <circle cx="44" cy="16" r="3" fill="#c9a96e"/>
+        </svg>
+
+        <div class="brand-name">Crown &amp; Comb</div>
+        <div class="brand-tag">Salon &amp; Spa · Est. 2018</div>
+        <div class="gold-divider"></div>
+
+        <div class="offer-badge">
+          <div class="offer-text">Limited Offer</div>
+          <div class="offer-value">First Visit 30% Off</div>
+          <div style="font-family:'Montserrat',sans-serif;font-size:8px;color:rgba(245,240,232,0.5);letter-spacing:1px;margin-top:2px;">Swipe up to book now</div>
+        </div>
+      </div>
+
+      <!-- Instagram top bar (always on top) -->
+      <div class="ig-top-bar">
+        <div class="ig-progress-bars">
+          <div class="ig-bar"><div class="ig-bar-fill"></div></div>
+          <div class="ig-bar" style="background:rgba(255,255,255,0.15);"></div>
+          <div class="ig-bar" style="background:rgba(255,255,255,0.15);"></div>
+        </div>
+        <div class="ig-account-row">
+          <div class="ig-avatar-group">
+            <div class="ig-avatar">C&amp;C</div>
+            <div class="ig-name-group">
+              <span class="ig-username">crownandcomb_salon</span>
+              <span class="ig-time">now · <span class="ig-sponsored">Sponsored</span></span>
+            </div>
+          </div>
+          <span class="ig-close-btn">✕</span>
+        </div>
+      </div>
+
+      <!-- Swipe Up -->
+      <div class="swipe-up-area">
+        <div class="swipe-chevron">
+          <div class="chevron-icon"></div>
+          <div class="chevron-icon c2"></div>
+        </div>
+        <button class="swipe-label">Swipe Up</button>
+        <div class="swipe-sublabel">Book Your Appointment</div>
+      </div>
+
+    </div><!-- /phone-screen -->
+  </div><!-- /phone-frame -->
+</div><!-- /phone-wrapper -->
+
+<div class="hint-row"> 
+  <button class="hint-btn" onclick="location.reload()">↺ Replay Ad</button> 
+  <button onclick="window.location.href='https://crown-and-comb-studio.vercel.app/'" class="hint-btn primary">Take Quiz↗</button> 
+</div>
+<button class="replay-btn" onclick="location.reload()">tap replay to preview again</button>
+
+<script>
+  // Generate gold particles
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 28; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    p.style.setProperty('--dur', (4 + Math.random() * 6) + 's');
+    p.style.setProperty('--delay', (Math.random() * 8) + 's');
+    p.style.setProperty('--drift', (Math.random() * 60 - 30) + 'px');
+    p.style.left = (Math.random() * 100) + '%';
+    p.style.bottom = '0';
+    p.style.width = (1 + Math.random() * 2.5) + 'px';
+    p.style.height = p.style.width;
+    container.appendChild(p);
+  }
+</script>
+</body>
+</html>
